@@ -12,12 +12,7 @@ builder.Services.AddResponseCompression();
 
 WebApplication app = builder.Build();
 
-if (app.Environment.IsProduction())
-{
-    app.UseHsts();
-    app.UseHttpsRedirection();
-}
-
+app.UseHttpsRedirection();
 app.MapHealthChecks("/health");
 app.UseResponseCompression();
 
@@ -28,7 +23,7 @@ app.UseWebSockets();
 app.MapPost("/room", async (HttpContext context) =>
 {
     var roomId = Guid.NewGuid().ToString();
-    
+
     Rooms[roomId] = new Room { RoomId = roomId };
 
     context.Response.ContentType = "application/json";
