@@ -7,6 +7,8 @@ Dictionary<string, Room> Rooms = new();
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddHealthChecks();
 builder.Services.AddResponseCompression();
 
