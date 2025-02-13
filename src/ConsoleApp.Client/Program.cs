@@ -57,8 +57,11 @@ switch (roomOption)
 Console.WriteLine($"\n====================================");
 Console.WriteLine($"Connecting to Room: {roomId}");
 
+var uri = new Uri(baseUrl);
+var host = uri.Host;
+
 using ClientWebSocket webSocket = new ClientWebSocket();
-await webSocket.ConnectAsync(new Uri($"ws://localhost:5106/chat?roomId={roomId}"), CancellationToken.None);
+await webSocket.ConnectAsync(new Uri($"ws://{host}/chat?roomId={roomId}"), CancellationToken.None);
 
 Console.WriteLine("Connected! Start chatting...");
 Console.WriteLine($"====================================\n");
