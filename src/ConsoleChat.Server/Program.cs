@@ -66,11 +66,9 @@ app.Map("/chat", async (HttpContext context) =>
     }
 });
 
-app.UseRouting();
-
 app.Run();
 
-
+#region Handle Websocket Connection
 async Task HandleWebSocketConnection(WebSocket webSocket, Message message)
 {
     var buffer = new byte[1024 * 4];
@@ -118,3 +116,4 @@ async Task BroadcastMessageToRoom(Message message)
         }
     }
 }
+#endregion
