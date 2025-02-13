@@ -65,8 +65,6 @@ await webSocket.ConnectAsync(new Uri($"wss://{host}/chat?roomId={roomId}"), Canc
 Console.WriteLine("Connected! Start chatting...");
 Console.WriteLine($"====================================\n");
 
-
-
 _ = Task.Run(() => ReceiveMessagesAsync(webSocket));
 
 while (webSocket.State == WebSocketState.Open)
@@ -98,6 +96,8 @@ while (webSocket.State == WebSocketState.Open)
 }
 
 Console.WriteLine("Disconnected.");
+
+await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Finished sending messages", CancellationToken.None).ConfigureAwait(false);
 
 #region Print Messages
 void PrintMessages(List<Message> messages)
