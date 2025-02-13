@@ -12,15 +12,33 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHealthChecks();
 builder.Services.AddResponseCompression();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 WebApplication app = builder.Build();
 
-app.UseHttpsRedirection();
+if (app.Environment.IsProduction())
+{
+    app.UseHsts();
+    app.UseHttpsRedirection();
+}
+
 app.MapHealthChecks("/health");
 app.UseResponseCompression();
 
 app.MapGet("/", () => "Console Chat Server is Operational.");
 
 app.UseWebSockets();
+
+app.UseCors();
 
 app.MapPost("/room", async (HttpContext context) =>
 {
@@ -61,6 +79,8 @@ app.Map("/chat", async (HttpContext context) =>
         context.Response.StatusCode = StatusCodes.Status400BadRequest;
     }
 });
+
+app.UseRouting();
 
 app.Run();
 
