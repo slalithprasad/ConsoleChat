@@ -1,0 +1,6 @@
+@ConsoleChat.Server_HostAddress = http://localhost:5106
+
+GET {{ConsoleChat.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
