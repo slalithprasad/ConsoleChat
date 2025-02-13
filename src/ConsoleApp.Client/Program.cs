@@ -4,7 +4,7 @@ using System.Text;
 using System.Text.Json;
 using ConsoleApp.Client.Models;
 
-string baseUrl = Environment.GetEnvironmentVariable("CONSOLECHAT_")!;
+string baseUrl = Environment.GetEnvironmentVariable("CONSOLECHAT_SERVERURI")!;
 
 List<Message> messages = new List<Message>();
 
