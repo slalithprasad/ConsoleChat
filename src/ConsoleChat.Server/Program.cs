@@ -51,14 +51,12 @@ app.Map("/chat", async (HttpContext context) =>
             return;
         }
 
-        // Join the room or create a new one
         if (!Rooms.ContainsKey(roomId))
         {
             Rooms[roomId] = new Room { RoomId = roomId };
         }
         Rooms[roomId].Clients.Add(webSocket);
 
-        // Pass Message object instead of just roomId
         var message = new Message { RoomId = roomId };
         await HandleWebSocketConnection(webSocket, message);
     }
@@ -92,14 +90,12 @@ async Task HandleWebSocketConnection(WebSocket webSocket, Message message)
             var receivedMessageJson = Encoding.UTF8.GetString(buffer, 0, result.Count);
             var receivedMessage = JsonSerializer.Deserialize<Message>(receivedMessageJson);
 
-            if (receivedMessage != null)
+            if (receivedMessage is not null)
             {
                 Console.WriteLine($"[{message.RoomId}] {receivedMessage.UserName}: {receivedMessage.Text}");
 
-                // Set the RoomId from the current connection
                 receivedMessage.RoomId = message.RoomId;
 
-                // Broadcast to all clients in the room
                 await BroadcastMessageToRoom(receivedMessage);
             }
         }

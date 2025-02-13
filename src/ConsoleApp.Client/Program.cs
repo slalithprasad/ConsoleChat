@@ -1,5 +1,4 @@
-﻿
-using System.Net.WebSockets;
+﻿using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
 using ConsoleApp.Client.Models;
@@ -61,7 +60,7 @@ var uri = new Uri(baseUrl);
 var host = uri.Host;
 
 using ClientWebSocket webSocket = new ClientWebSocket();
-await webSocket.ConnectAsync(new Uri($"ws://{host}/chat?roomId={roomId}"), CancellationToken.None);
+await webSocket.ConnectAsync(new Uri($"wss://{host}/chat?roomId={roomId}"), CancellationToken.None);
 
 Console.WriteLine("Connected! Start chatting...");
 Console.WriteLine($"====================================\n");
@@ -70,7 +69,7 @@ Console.WriteLine($"====================================\n");
 
 _ = Task.Run(() => ReceiveMessagesAsync(webSocket));
 
-while (webSocket.State == WebSocketState.Open || webSocket.State == WebSocketState.CloseReceived)
+while (webSocket.State == WebSocketState.Open)
 {
     string? messageText = Console.ReadLine();
 
@@ -100,16 +99,14 @@ while (webSocket.State == WebSocketState.Open || webSocket.State == WebSocketSta
 
 Console.WriteLine("Disconnected.");
 
-#region Helper Method
+#region Print Messages
 void PrintMessages(List<Message> messages)
 {
     Console.Clear();
 
-    // Clear the buffer manually
     int windowWidth = Console.WindowWidth;
     int windowHeight = Console.WindowHeight;
 
-    // Overwrite the entire screen with blank lines
     Console.SetCursorPosition(0, 0);
     for (int i = 0; i < windowHeight; i++)
     {
@@ -117,7 +114,6 @@ void PrintMessages(List<Message> messages)
     }
     Console.SetCursorPosition(0, 0);
 
-    // Display messages
     int startLine = Math.Max(0, messages.Count - windowHeight + 1);
     for (int i = startLine; i < messages.Count; i++)
     {
@@ -134,7 +130,6 @@ void PrintMessages(List<Message> messages)
         Console.WriteLine(textToDisplay);
     }
 
-    // Reset input line position
     Console.ResetColor();
     Console.SetCursorPosition(0, windowHeight - 1);
     Console.ForegroundColor = ConsoleColor.Cyan;
@@ -213,7 +208,6 @@ async Task ReceiveMessagesAsync(ClientWebSocket webSocket)
                 messages.Add(receivedMessage);
             }
 
-            // Re-print all messages after receiving
             PrintMessages(messages);
         }
     }

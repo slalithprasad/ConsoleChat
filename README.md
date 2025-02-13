@@ -4,27 +4,19 @@ Console Chat is a lightweight real-time chat application built using .NET Minima
 - **ConsoleChat.Server**: The backend server that manages chat rooms and WebSocket connections.  
 - **ConsoleChat.Client**: The console-based client that connects to the server for real-time messaging.  
 
----  
-
 ## Features ✨  
 - Real-time messaging using WebSockets.  
 - Room-based chat system where users can join and chat in different rooms.  
 - Lightweight and fast.
 
----  
-
 ## Architecture Overview 🏛️  
 - **ConsoleChat.Server**: Manages WebSocket connections, room creation, and message broadcasting.  
 - **ConsoleChat.Client**: Console application that allows users to join rooms and chat in real-time.  
-
----  
 
 ## Prerequisites 🔧  
 - Download and install [.NET 9.0 SDK](https://dotnet.microsoft.com/download)  
 - Azure App Service (for deployment)  
 - Visual Studio or VS Code  
-
----  
 
 ## Getting Started (running locally) 🚀  
 
