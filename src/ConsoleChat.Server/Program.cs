@@ -31,14 +31,15 @@ if (app.Environment.IsProduction())
     app.UseHttpsRedirection();
 }
 
-app.MapHealthChecks("/health");
 app.UseResponseCompression();
 
-app.MapGet("/", () => "Console Chat Server is Operational.");
+app.UseCors();
 
 app.UseWebSockets();
 
-app.UseCors();
+app.MapHealthChecks("/health");
+
+app.MapGet("/", () => "Console Chat Server is Operational.");
 
 app.MapPost("/room", async (HttpContext context) =>
 {
