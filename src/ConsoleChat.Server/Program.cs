@@ -12,17 +12,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHealthChecks();
 builder.Services.AddResponseCompression();
 
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(builder =>
-    {
-        builder
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader();
-    });
-});
-
 WebApplication app = builder.Build();
 
 if (app.Environment.IsProduction())
@@ -32,8 +21,6 @@ if (app.Environment.IsProduction())
 }
 
 app.UseResponseCompression();
-
-app.UseCors();
 
 app.UseWebSockets();
 
